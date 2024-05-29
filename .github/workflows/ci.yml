@@ -24,6 +24,7 @@ jobs:
 
       - name: application.yml 생성
         run: |
+          mkdir ./src/main/resources # resources 폴더 생성
           cd src/main/resources 
           echo "${{ secrets.APPLICATION }}" > ./application.yml
 
