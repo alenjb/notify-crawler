@@ -25,10 +25,9 @@ RUN apt-get update && \
 # 크롬 버전 확인
 RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
 
-# 크롬 드라이버 다운로드 및 설치
-RUN wget -q "https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip" -O /tmp/chromedriver.zip && \
-    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
-    rm /tmp/chromedriver.zip
+RUN wget -q "https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
+RUN unzip /tmp/chromedriver.zip -d /usr/local/bin/
+RUN rm /tmp/chromedriver.zip
 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
