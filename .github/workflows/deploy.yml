@@ -1,0 +1,49 @@
+name: Deploy to Docker Hub and Remote Server
+
+# 워크플로우 트리거 설정
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시될 때 워크플로우 실행
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest  # 워크플로우가 실행될 환경 설정
+
+    steps:
+      - name: Checkout repository  # 리포지토리 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx  # Docker Buildx 설정
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub  # Docker Hub에 로그인
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}  # Docker Hub 사용자 이름
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}  # Docker Hub 접근 토큰
+
+      - name: Build and Push Docker Image  # Docker 이미지 빌드 및 푸시
+        uses: docker/build-push-action@v4
+        with:
+          context: .  # 현재 디렉토리를 컨텍스트로 사용
+          file: ./Dockerfile  # Dockerfile 위치
+          push: true  # 이미지를 Docker Hub에 푸시
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/your-spring-app:latest  # 이미지 태그 설정
+
+  deploy:
+    runs-on: ubuntu-latest  # 워크플로우가 실행될 환경 설정
+    needs: build-and-push  # build-and-push 작업 완료 후 실행
+
+    steps:
+      - name: Deploy to Remote Server  # 원격 서버에 배포
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.REMOTE_SERVER_HOST }}  # 원격 서버 주소
+          username: ${{ secrets.REMOTE_SERVER_USER }}  # 원격 서버 사용자 이름
+          key: ${{ secrets.REMOTE_SERVER_SSH_KEY }}  # 원격 서버 SSH 키
+          script: |  # 원격 서버에서 실행할 스크립트
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/your-spring-app:latest  # 최신 Docker 이미지 풀링
+            docker stop spring-app || true  # 기존 컨테이너 중지 (실패해도 무시)
+            docker rm spring-app || true  # 기존 컨테이너 삭제 (실패해도 무시)
+            docker run -d -p 8082:8082 --name spring-app ${{ secrets.DOCKER_HUB_USERNAME }}/your-spring-app:latest  # 새 컨테이너 실행
