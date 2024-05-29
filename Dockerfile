@@ -1,5 +1,5 @@
-# 기본 이미지를 설정합니다. openjdk 이미지와 크롬 브라우저를 포함한 베이스 이미지를 사용합니다.
-FROM amd64/amazoncorretto:17
+# 기본 이미지를 설정합니다.
+FROM ubuntu:22.04
 
 # 작업 디렉토리를 설정합니다.
 WORKDIR /app
