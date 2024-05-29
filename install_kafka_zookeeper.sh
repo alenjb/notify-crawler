@@ -17,8 +17,8 @@ echo "dataDir=/tmp/zookeeper" >> /opt/zookeeper/conf/zoo.cfg || { echo "주키�
 
 # 카프카 설치
 wget -q https://downloads.apache.org/kafka/3.7.0/kafka_2.12-3.7.0.tgz || { echo "카프카 다운로드에 실패했습니다."; exit 1; }
-tar -xzf kafka_2.13-3.7.0.tgz || { echo "카프카 압축 해제에 실패했습니다."; exit 1; }
-mv kafka_2.13-3.7.0 /opt/kafka || { echo "카프카 이동에 실패했습니다."; exit 1; }
-rm kafka_2.13-3.7.0.tgz || { echo "카프카 압축 파일 삭제에 실패했습니다."; exit 1; }
+tar -xzf kafka_2.12-3.7.0.tgz || { echo "카프카 압축 해제에 실패했습니다."; exit 1; }
+mv kafka_2.12-3.7.0 /opt/kafka || { echo "카프카 이동에 실패했습니다."; exit 1; }
+rm kafka_2.12-3.7.0.tgz || { echo "카프카 압축 파일 삭제에 실패했습니다."; exit 1; }
 sed -i 's/log.dirs=\/tmp\/kafka-logs/log.dirs=\/opt\/kafka\/logs/g' /opt/kafka/config/server.properties || { echo "카프카 설정 파일 수정에 실패했습니다."; exit 1; }
 /opt/kafka/bin/kafka-server-start.sh -daemon /opt/kafka/config/server.properties || { echo "카프카 시작에 실패했습니다."; exit 1; }
