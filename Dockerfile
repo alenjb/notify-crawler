@@ -1,16 +1,21 @@
 # 기본 이미지를 설정합니다.
 FROM ubuntu:22.04
 
+# Java 설치
+RUN apt-get update && \
+    apt-get install -y openjdk-17-jdk && \
+    rm -rf /var/lib/apt/lists/*
+    
+# wget 설치
+RUN apt-get update && \
+    apt-get install -y wget && \
+    rm -rf /var/lib/apt/lists/*
+
 # 작업 디렉토리를 설정합니다.
 WORKDIR /app
 
 # 스프링 어플리케이션 JAR 파일을 컨테이너로 복사합니다.
 COPY ./build/libs/notify-crawler-0.0.1-SNAPSHOT.jar /app/notify-crawler.jar
-
-# wget 설치
-RUN apt-get update && \
-    apt-get install -y wget && \
-    rm -rf /var/lib/apt/lists/*
 
 # 크롬 브라우저와 크롬 드라이버를 설치합니다.
 RUN apt-get update && \
@@ -38,6 +43,8 @@ RUN /app/install_kafka_zookeeper.sh
 # 환경 변수를 설정합니다.
 ENV CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
 ENV SPRING_PROFILES_ACTIVE=prod
+ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+ENV PATH=$PATH:$JAVA_HOME/bin
 
 # 포트를 엽니다.
 EXPOSE 8082
