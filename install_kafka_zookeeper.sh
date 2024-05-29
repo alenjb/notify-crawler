@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Java 환경 변수 설정
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$PATH:$JAVA_HOME/bin
+
 set -e  # 스크립트 실행 중 오류 발생 시 즉시 종료합니다.
 
 # 주키퍼 설치
