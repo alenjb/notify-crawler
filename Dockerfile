@@ -22,16 +22,13 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN apt-get update && \
     apt-get install -y google-chrome-stable
 
-# 크롬 버전 확인
-RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-
-RUN wget -q "https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip" -O /tmp/chromedriver.zip
-RUN unzip /tmp/chromedriver.zip -d /usr/local/bin/
-RUN rm /tmp/chromedriver.zip
+# 크롬 드라이버를 다운로드하고 설치합니다.
+RUN wget -q "https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip" -O /tmp/chromedriver.zip && \
+    unzip /tmp/chromedriver.zip -d /usr/local/bin/ && \
+    rm /tmp/chromedriver.zip
 
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
 
 # 주키퍼와 카프카를 설치하고 실행하는 스크립트를 추가합니다.
 COPY install_kafka_zookeeper.sh /app/install_kafka_zookeeper.sh
