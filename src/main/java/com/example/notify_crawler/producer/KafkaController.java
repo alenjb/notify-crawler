@@ -1,3 +1,4 @@
+/*
 package com.example.notify_crawler.producer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,4 +16,4 @@ public class KafkaController {
     public void sendMessageToKafka(@RequestParam("message") String message) {
         kafkaProducer.sendMessage(message);
     }
-}
+}*/
