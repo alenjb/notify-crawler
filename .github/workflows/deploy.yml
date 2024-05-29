@@ -35,6 +35,7 @@ jobs:
       shell: bash
 
   build-and-push:
+    needs: deploy-ci
     runs-on: ubuntu-22.04  # 워크플로우가 실행될 환경 설정
 
     steps:
