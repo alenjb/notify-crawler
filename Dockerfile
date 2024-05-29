@@ -7,6 +7,11 @@ WORKDIR /app
 # 스프링 어플리케이션 JAR 파일을 컨테이너로 복사합니다.
 COPY ./build/libs/notify-crawler-0.0.1-SNAPSHOT.jar /app/notify-crawler.jar
 
+# wget 설치
+RUN apt-get update && \
+    apt-get install -y wget && \
+    rm -rf /var/lib/apt/lists/*
+
 # 크롬 브라우저와 크롬 드라이버를 설치합니다.
 RUN apt-get update && \
     apt-get install -y wget gnupg unzip
