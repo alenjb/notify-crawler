@@ -65,4 +65,4 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 최신 Docker 이미지 풀링
             sudo docker stop notify-crawler || true  # 기존 컨테이너 중지 (실패해도 무시)
             sudo docker rm notify-crawler || true  # 기존 컨테이너 삭제 (실패해도 무시)
-            sudo docker run -d -p 8082:8082 --name notify-crawler ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 새 컨테이너 실행
+            sudo docker run -d -p 8082:8082 --name notify-crawler --restart=always ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 새 컨테이너 실행
