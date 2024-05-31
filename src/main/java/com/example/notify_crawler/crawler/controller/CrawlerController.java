@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import static com.example.notify_crawler.crawler.service.CrawlerServiceImpl.getChromeOptions;
+
 @Controller
 @Slf4j
 public class CrawlerController {
@@ -47,14 +49,8 @@ public class CrawlerController {
     @Transactional
     @PostConstruct
     public void getComNotice() throws InterruptedException, ParseException {
-        // Headless 모드로 Chrome 실행
-        ChromeOptions options = new ChromeOptions();
-        // Headless 모드 활성화
-        options.addArguments("--headless");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--ignore-ssl-errors=yes");
-        options.addArguments("--ignore-certificate-errors");
-
+        log.info("==== 새 공통 공지사항 크롤링 시작 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        ChromeOptions options = getChromeOptions();
         // WebDriver 인스턴스 생성
         WebDriver driver = new ChromeDriver(options);
 
@@ -109,6 +105,7 @@ public class CrawlerController {
     @Transactional
     @PostConstruct
     public void getAllMajorNotice() throws InterruptedException, ParseException {
+        log.info("==== "+ "학과 새 공지사항 크롤링 시작 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화

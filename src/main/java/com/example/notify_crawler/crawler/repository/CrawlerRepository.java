@@ -2,7 +2,7 @@ package com.example.notify_crawler.crawler.repository;
 
 import com.example.notify_crawler.common.domain.NoticeType;
 import com.example.notify_crawler.notice.domain.Notice;
-import feign.Param;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

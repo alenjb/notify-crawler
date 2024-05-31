@@ -19,6 +19,7 @@ import com.example.notify_crawler.esm_notice.repository.EsmNoticeRepository;
 import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -35,6 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.*;
 
 @Service
+@Slf4j
 public class CrawlerServiceImpl implements CrawlerService{
 
     @Autowired
@@ -205,12 +207,7 @@ public class CrawlerServiceImpl implements CrawlerService{
             // 세션 다시 시작
             driver.quit();
             // Headless 모드로 Chrome 실행
-            ChromeOptions options = new ChromeOptions();
-            // Headless 모드 활성화
-            options.addArguments("--headless");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--ignore-ssl-errors=yes");
-            options.addArguments("--ignore-certificate-errors");
+            ChromeOptions options = getChromeOptions();
             // WebDriver 인스턴스 생성
             driver = new ChromeDriver(options); // 새로운 WebDriver 인스턴스 생성
             // 다시 시도
@@ -292,11 +289,7 @@ public class CrawlerServiceImpl implements CrawlerService{
     @Override
     public List<Notice> getNewComNoticesByPageNum(String username, String password, int pageNum, WebDriver oldDriver) throws InterruptedException, ParseException {
         oldDriver.quit();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-popup-blocking", "--headless");
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--ignore-ssl-errors=yes");
-        options.addArguments("--ignore-certificate-errors");
+        ChromeOptions options = getChromeOptions();
 
         WebDriver driver = new ChromeDriver(options);
         // 공지사항들을 저장할 리스트
@@ -652,5 +645,20 @@ public class CrawlerServiceImpl implements CrawlerService{
                     break;
             }
         }
+    }
+
+    public static ChromeOptions getChromeOptions() {
+        // Headless 모드로 Chrome 실행
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--remote-debugging-port=9222");
+        options.addArguments("--disable-software-rasterizer");
+        options.addArguments("--disable-extensions");
+        options.addArguments("--disable-popup-blocking");
+        options.addArguments("--disable-features=VizDisplayCompositor");
+        return options;
     }
 }
