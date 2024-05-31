@@ -6,6 +6,7 @@ import com.example.notify_crawler.crawler.service.CrawlerService;
 import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
 import com.example.notify_crawler.producer.KafkaProducer;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -44,11 +45,16 @@ public class CrawlerController {
      */
     @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
     @Transactional
+    @PostConstruct
     public void getComNotice() throws InterruptedException, ParseException {
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화
         options.addArguments("--headless");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--ignore-ssl-errors=yes");
+        options.addArguments("--ignore-certificate-errors");
+
         // WebDriver 인스턴스 생성
         WebDriver driver = new ChromeDriver(options);
 
@@ -101,11 +107,16 @@ public class CrawlerController {
      */
     @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
     @Transactional
+    @PostConstruct
     public void getAllMajorNotice() throws InterruptedException, ParseException {
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화
         options.addArguments("--headless");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--ignore-ssl-errors=yes");
+        options.addArguments("--ignore-certificate-errors");
+
         // WebDriver 인스턴스 생성
         WebDriver driver = new ChromeDriver(options);
         NoticeType[] noticeTypes = NoticeType.values();
