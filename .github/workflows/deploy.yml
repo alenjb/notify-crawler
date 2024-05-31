@@ -1,4 +1,4 @@
-name: Deploy to Docker Hub and Remote Server
+name: Deploy to Docker Hub and NOTIFY Server
 
 # 워크플로우 트리거 설정
 on:
@@ -55,14 +55,14 @@ jobs:
     needs: deploy-ci  # deploy-ci 작업 완료 후 실행
 
     steps:
-      - name: Deploy to Remote Server  # 원격 서버에 배포
+      - name: Deploy to NOTIFY Server  # 원격 서버에 배포
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: ${{ secrets.REMOTE_SERVER_HOST }}  # 원격 서버 주소
-          username: ${{ secrets.REMOTE_SERVER_USER }}  # 원격 서버 사용자 이름
-          key: ${{ secrets.REMOTE_SERVER_SSH_KEY }}  # 원격 서버 SSH 키
+          host: ${{ secrets.NOTIFY_SERVER_HOST }}  # 원격 서버 주소
+          username: ${{ secrets.NOTIFY_SERVER_USER }}  # 원격 서버 사용자 이름
+          key: ${{ secrets.NOTIFY_SERVER_SSH_KEY }}  # 원격 서버 SSH 키
           script: |  # 원격 서버에서 실행할 스크립트
             sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 최신 Docker 이미지 풀링
             sudo docker stop notify-crawler || true  # 기존 컨테이너 중지 (실패해도 무시)
             sudo docker rm notify-crawler || true  # 기존 컨테이너 삭제 (실패해도 무시)
-            sudo docker run -d -p 8082:8082 --name notify-crawler ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 새 컨테이너 실행
+            sudo docker run -d -p 8082:8082 --name notify-crawler --restart=always ${{ secrets.DOCKER_HUB_USERNAME }}/notify-crawler:latest  # 새 컨테이너 실행
