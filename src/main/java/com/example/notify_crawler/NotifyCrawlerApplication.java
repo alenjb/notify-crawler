@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class NotifyCrawlerApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 		SpringApplication.run(NotifyCrawlerApplication.class, args);
 	}
 }
