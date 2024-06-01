@@ -4,7 +4,7 @@ import com.example.notify_crawler.common.domain.NoticeType;
 import com.example.notify_crawler.crawler.service.CrawlerService;
 import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
-import com.example.notify_crawler.producer.KafkaProducer;
+//import com.example.notify_crawler.producer.KafkaProducer;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
