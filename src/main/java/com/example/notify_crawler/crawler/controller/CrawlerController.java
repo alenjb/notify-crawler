@@ -51,7 +51,7 @@ public class CrawlerController {
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--ignore-ssl-errors=yes");
         options.addArguments("--ignore-certificate-errors");

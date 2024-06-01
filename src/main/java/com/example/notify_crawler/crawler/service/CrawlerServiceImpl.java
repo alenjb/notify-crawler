@@ -386,7 +386,7 @@ public class CrawlerServiceImpl implements CrawlerService{
     public static ChromeOptions getChromeOptions() {
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
-//        options.addArguments("--headless");
+        options.addArguments("--headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
         options.addArguments("--disable-dev-shm-usage");
