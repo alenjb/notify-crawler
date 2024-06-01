@@ -3,11 +3,9 @@ package com.example.notify_crawler.common.constants;
 public final class CrawlerConstants {
     /** ================ 공통 공지사항 관련 상수 ================ **/
     // 한 페이지에 크롤링 해오는 공통 공지사항 개수
-    public static final int CRAWLING_COM_NOTICE_SIZE_PER_PAGE = 15;
-    // 로그인 페이지 url
-    public static final String LOGIN_PAGE = "https://eportal.skku.edu";
+    public static final int CRAWLING_COM_NOTICE_SIZE_PER_PAGE = 10;
     // 공통 공지사항 게시판 페이지 url
-    public static final String COM_NOTICE_BOARD_PAGE = "https://app.skku.edu/portal.nsf/boardPortal?readForm";
+    public static final String COM_NOTICE_BOARD_PAGE = "https://www.skku.edu/skku/campus/skk_comm/notice01.do";
 
     /** ================ 학과 공지사항 관련 상수 ================ **/
     /* 1. 경영학과 */
