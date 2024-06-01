@@ -97,6 +97,8 @@ public class CrawlerController {
                 log.info("==== "+ noticeType + " 새 공지사항 저장 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
 //                kafkaProducer.sendMessage("공지사항 저장 완료");
             }
+            log.info("==== "+ noticeType + " 모든 공지사항이 최신 공지사항임을 체크 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+
         }
     }
 }
