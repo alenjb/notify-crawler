@@ -52,7 +52,9 @@ public class CrawlerController {
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화
         options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
         options.addArguments("--ignore-ssl-errors=yes");
         options.addArguments("--ignore-certificate-errors");
 
