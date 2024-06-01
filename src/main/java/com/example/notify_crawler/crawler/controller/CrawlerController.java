@@ -28,13 +28,13 @@ public class CrawlerController {
     private final CrawlerService crawlerService;
     @Autowired
     private final NoticeRepository noticeRepository;
-    @Autowired
-    private final KafkaProducer kafkaProducer;
+//    @Autowired
+//    private final KafkaProducer kafkaProducer;
 
-    public CrawlerController(CrawlerService crawlerService, NoticeRepository noticeRepository, KafkaProducer kafkaProducer) {
+    public CrawlerController(CrawlerService crawlerService, NoticeRepository noticeRepository) {
         this.crawlerService = crawlerService;
         this.noticeRepository = noticeRepository;
-        this.kafkaProducer = kafkaProducer;
+//        this.kafkaProducer = kafkaProducer;
     }
 
 
@@ -93,7 +93,7 @@ public class CrawlerController {
                 // 가져온 새 공통 공지사항들 DB에 저장
                 crawlerService.saveNewNotices(newNotices, noticeType);
                 log.info("==== "+ noticeType + " 새 공지사항 저장 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
-                kafkaProducer.sendMessage("공지사항 저장 완료");
+//                kafkaProducer.sendMessage("공지사항 저장 완료");
             }
         }
     }
