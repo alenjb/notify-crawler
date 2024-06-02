@@ -28,6 +28,8 @@ dependencies {
 
 	// Selenium WebDriver
 	implementation 'org.seleniumhq.selenium:selenium-java:4.8.0'
+	//데이터 바인딩
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
