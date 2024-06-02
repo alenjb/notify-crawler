@@ -46,7 +46,7 @@ public class CrawlerController {
     @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
     @Transactional
     @PostConstruct
-    public void getAllNotice() throws InterruptedException, ParseException {
+    public List<Notice> getAllNotice() throws InterruptedException, ParseException {
         log.info("==== "+ "새 공지사항 크롤링 시작 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
@@ -61,6 +61,7 @@ public class CrawlerController {
         // WebDriver 인스턴스 생성
         WebDriver driver = new ChromeDriver(options);
         NoticeType[] noticeTypes = NoticeType.values();
+        List<Notice> kafkaNotices = new ArrayList<>();
         // 모든 공지 사항에 대해 반복
         for (NoticeType noticeType : noticeTypes) {
             // 새 글의 개수
@@ -90,6 +91,7 @@ public class CrawlerController {
                     List<Notice> notices = crawlerService.getNewNoticesByPageNum(i, noticeType, driver);
                     for (Notice notice : notices) {
                         newNotices.add(notice);
+                        kafkaNotices.add(notice);
                     }
                 }
                 // 가져온 새 공통 공지사항들 DB에 저장
@@ -99,6 +101,7 @@ public class CrawlerController {
             log.info("==== "+ noticeType + " 모든 공지사항이 최신 공지사항임을 체크 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         }
         log.info("==== 모든 공지사항 크롤링 작업 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
-        kafkaProducer.sendMessage("크롤링 작업 완료");
+        log.info("==== 카프카 메시지 전송 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        return kafkaNotices;
     }
 }
