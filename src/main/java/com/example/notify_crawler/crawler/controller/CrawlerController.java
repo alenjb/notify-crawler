@@ -46,7 +46,7 @@ public class CrawlerController {
     @Scheduled(cron = "0 */30 * * * *") // 매 30분마다 실행
     @Transactional
     @PostConstruct
-    public List<Notice> getAllNotice() throws InterruptedException, ParseException {
+    public void getAllNotice() throws InterruptedException, ParseException {
         log.info("==== "+ "새 공지사항 크롤링 시작 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
@@ -101,7 +101,7 @@ public class CrawlerController {
             log.info("==== "+ noticeType + " 모든 공지사항이 최신 공지사항임을 체크 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         }
         log.info("==== 모든 공지사항 크롤링 작업 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        KafkaProducer.produce(kafkaNotices);
         log.info("==== 카프카 메시지 전송 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
-        return kafkaNotices;
     }
 }
