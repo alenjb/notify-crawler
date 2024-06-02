@@ -4,7 +4,7 @@ import com.example.notify_crawler.common.domain.NoticeType;
 import com.example.notify_crawler.crawler.service.CrawlerService;
 import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
-//import com.example.notify_crawler.producer.KafkaProducer;
+import com.example.notify_crawler.producer.KafkaProducer;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +28,13 @@ public class CrawlerController {
     private final CrawlerService crawlerService;
     @Autowired
     private final NoticeRepository noticeRepository;
-//    @Autowired
-//    private final KafkaProducer kafkaProducer;
+    @Autowired
+    private final KafkaProducer kafkaProducer;
 
-    public CrawlerController(CrawlerService crawlerService, NoticeRepository noticeRepository) {
+    public CrawlerController(CrawlerService crawlerService, NoticeRepository noticeRepository, KafkaProducer kafkaProducer) {
         this.crawlerService = crawlerService;
         this.noticeRepository = noticeRepository;
-//        this.kafkaProducer = kafkaProducer;
+        this.kafkaProducer = kafkaProducer;
     }
 
 
