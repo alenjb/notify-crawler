@@ -1,6 +1,7 @@
 package com.example.notify_crawler.notice.domain;
 
 import com.example.notify_crawler.common.domain.BaseTimeEntity;
+import com.example.notify_crawler.common.domain.NoticeCategory;
 import com.example.notify_crawler.common.domain.NoticeType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,8 @@ public class Notice extends BaseTimeEntity implements Serializable {
 
     private Date noticeDate;
 
+    @Enumerated(EnumType.STRING)
+    private NoticeCategory noticeCategory;
 
     @Enumerated(EnumType.STRING)
     private NoticeType noticeType;
