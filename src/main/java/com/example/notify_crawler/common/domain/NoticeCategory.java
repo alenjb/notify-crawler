@@ -35,6 +35,7 @@ public enum NoticeCategory {
         if (koreanWord == null) {
             return NoticeCategory.ETC;
         }
+        koreanWord = koreanWord.replace("[", "").replace("]", "");
         for (NoticeCategory category : NoticeCategory.values()) {
             if (category.getKoreanWord().equals(koreanWord)) {
                 return category;

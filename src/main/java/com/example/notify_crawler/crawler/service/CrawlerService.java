@@ -1,7 +1,7 @@
 package com.example.notify_crawler.crawler.service;
 
 import com.example.notify_crawler.common.domain.NoticeType;
-import com.example.notify_crawler.crawler.dto.TitlesAndDates;
+import com.example.notify_crawler.crawler.dto.TitlesAndDatesAndCategories;
 import com.example.notify_crawler.notice.domain.Notice;
 import jakarta.transaction.Transactional;
 import org.openqa.selenium.WebDriver;
@@ -56,14 +56,14 @@ public interface CrawlerService {
     /** ================ 공지사항 관련 기능 ================ **/
 
     /**
-     * 공지사항 페이지에 접속해서 제목과 날짜를 가져온다.
+     * 공지사항 페이지에 접속해서 제목과 날짜, 카테고리를 가져온다.
      * @param driver 크롬 드라이버
      * @param pageNum 가져올 페이지 번호
      * @param noticeType 학과
      * @return 공지사항 제목과 날짜 리스트
      * @throws ParseException
      */
-    TitlesAndDates getTitlesAndDatesOfNoticeFromPageNum(WebDriver driver, int pageNum, NoticeType noticeType) throws ParseException;
+    TitlesAndDatesAndCategories getTitlesAndDatesAndCategoryOfNoticeFromPageNum(WebDriver driver, int pageNum, NoticeType noticeType) throws ParseException;
 
     /**
      * 해당 페이지 번호에서 공지사항들을 가져온다.
