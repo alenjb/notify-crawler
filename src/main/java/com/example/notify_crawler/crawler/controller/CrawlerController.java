@@ -47,7 +47,7 @@ public class CrawlerController {
     @Transactional
     @PostConstruct
     public void getAllNotice() throws InterruptedException, ParseException {
-        log.info("==== "+ "새 공지사항 크롤링 시작 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        log.info("==== "+ "새 공지사항 크롤링 시작 시각: "+ LocalDateTime.now() +"====");
         // Headless 모드로 Chrome 실행
         ChromeOptions options = new ChromeOptions();
         // Headless 모드 활성화
@@ -96,12 +96,15 @@ public class CrawlerController {
                 }
                 // 가져온 새 공통 공지사항들 DB에 저장
                 crawlerService.saveNewNotices(newNotices, noticeType);
-                log.info("==== "+ noticeType + " 새 공지사항 저장 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+                log.info("==== " + noticeType+ "의 " + newNotices.size() +"개의 새 공지사항 크롤링 완료====");
+                log.info("==== " + noticeType + " 새 공지사항 저장 완료 시각: "+ LocalDateTime.now() +"====");
+            } else {
+                log.info("==== " + noticeType + "의 모든 공지사항이 최신 공지사항임을 체크 완료 시각: "+ LocalDateTime.now() +"====");
             }
-            log.info("==== "+ noticeType + " 모든 공지사항이 최신 공지사항임을 체크 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
         }
-        log.info("==== 모든 공지사항 크롤링 작업 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        log.info("==== 모든 공지사항 크롤링 작업 완료 시각: "+ LocalDateTime.now() +"====");
+        log.info("==== 총 "+ kafkaNotices.size() +"개의 새 공지사항 크롤링 완료====");
         KafkaProducer.produce(kafkaNotices);
-        log.info("==== 카프카 메시지 전송 완료 시각: "+ String.valueOf(LocalDateTime.now())+"====");
+        log.info("==== 카프카 메시지 전송 완료 시각: "+ LocalDateTime.now() +"====");
     }
 }
