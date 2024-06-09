@@ -16,7 +16,7 @@ public interface CrawlerRepository extends JpaRepository<Notice, Long>{
      * @param noticeType 공지 타입
      * @return 가장 최근 2개의 게시물 리스트
      */
-    @Query("SELECT n FROM Notice n WHERE n.noticeType = :noticeType ORDER BY n.noticeId DESC")
+    @Query("SELECT n FROM Notice n WHERE n.noticeType = :noticeType ORDER BY n.noticeId DESC LIMIT 2")
     List<Notice> findTop2ByOrderByCreatedAtDesc(@Param("noticeType") NoticeType noticeType);
 
 }
