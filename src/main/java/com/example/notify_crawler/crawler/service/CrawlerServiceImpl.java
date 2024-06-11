@@ -20,9 +20,10 @@ import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -134,14 +135,14 @@ public class CrawlerServiceImpl implements CrawlerService{
             // DB의 첫번째 게시물의 인덱스를 찾으면 새글의 개수를 반환
             for (int k = 0; k < titlesAndDatesAndCategories.titles().size(); k++) {
                 if (titlesAndDatesAndCategories.titles().get(k).equals(firstTitle) && StringDates.get(k).equals(firstDate)) {
-                    return (k - 1) * noticeType.getNoticeSizePerPage() + k;
+                    return (i - 1) * noticeType.getNoticeSizePerPage() + k;
                 }
             }
 
             // 첫 번째 게시물이 수정이나 삭제되었다고 여기고 두 번째 게시글 이후를 새글로 간주 후 개수를 반환
             for (int k = 0; k < titlesAndDatesAndCategories.titles().size(); k++) {
                 if (titlesAndDatesAndCategories.titles().get(k).equals(secondTitle) && StringDates.get(k).equals(secondDate)) {
-                    return (k - 1) * noticeType.getNoticeSizePerPage() + k;
+                    return (i - 1) * noticeType.getNoticeSizePerPage() + k;
                 }
             }
         }
