@@ -113,33 +113,10 @@ public class CrawlerServiceImpl implements CrawlerService{
 
         // 1페이지부터 10페이지까지 반복하면서
         for(int i=1; i<=10; i++){
-            // 해당 페이지로 이동
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement pageButton;
-            if(noticeType == NoticeType.COM){
-                // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-                pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-                // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-                for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                    if (element.getText().equals(String.valueOf(i))) {
-                        pageButton = element;
-                        break;
-                    }
-                }
-            }else {
-                // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-                pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-                // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-                for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                    if (element.getText().equals(String.valueOf(i))) {
-                        pageButton = element;
-                        break;
-                    }
-                }
-            }
-            pageButton.click();
+            int offset = (i-1) *10;
+            // 해당 페이지로 이동
+            driver.get(noticeType.getBoardUrl()+offset);
 
 
             // 클릭이 정상적으로 적용되도록 0.5초 대기
@@ -223,33 +200,9 @@ public class CrawlerServiceImpl implements CrawlerService{
         // 해당 페이지로 이동
         driver.get(noticeType.getBoardUrl());
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement pageButton;
-        if(noticeType == NoticeType.COM){
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }else {
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }
-        pageButton.click();
+        int offset = (pageNum-1) *10;
+        // 해당 페이지로 이동
+        driver.get(noticeType.getBoardUrl()+offset);
 
         List<WebElement> titleAndUrls = driver.findElements(By.cssSelector(
                 "dt.board-list-content-title:not(.board-list-content-top) a"));
@@ -310,32 +263,9 @@ public class CrawlerServiceImpl implements CrawlerService{
 
         // 해당 페이지로 이동
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement pageButton;
-        if(noticeType == NoticeType.COM){
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }else {
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-        }
-        pageButton.click();
+        int offset = (pageNum-1) *10;
+        // 해당 페이지로 이동
+        driver.get(noticeType.getBoardUrl()+offset);
 
         //페이지의 이동을 위해 0.5초 대기
         Thread.sleep(500);
