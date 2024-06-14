@@ -20,9 +20,10 @@ import com.example.notify_crawler.notice.domain.Notice;
 import com.example.notify_crawler.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -113,33 +114,10 @@ public class CrawlerServiceImpl implements CrawlerService{
 
         // 1페이지부터 10페이지까지 반복하면서
         for(int i=1; i<=10; i++){
-            // 해당 페이지로 이동
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement pageButton;
-            if(noticeType == NoticeType.COM){
-                // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-                pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-                // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-                for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                    if (element.getText().equals(String.valueOf(i))) {
-                        pageButton = element;
-                        break;
-                    }
-                }
-            }else {
-                // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-                pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-                // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-                for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                    if (element.getText().equals(String.valueOf(i))) {
-                        pageButton = element;
-                        break;
-                    }
-                }
-            }
-            pageButton.click();
+            int offset = (i-1) *10;
+            // 해당 페이지로 이동
+            driver.get(noticeType.getBoardUrl()+offset);
 
 
             // 클릭이 정상적으로 적용되도록 0.5초 대기
@@ -157,14 +135,14 @@ public class CrawlerServiceImpl implements CrawlerService{
             // DB의 첫번째 게시물의 인덱스를 찾으면 새글의 개수를 반환
             for (int k = 0; k < titlesAndDatesAndCategories.titles().size(); k++) {
                 if (titlesAndDatesAndCategories.titles().get(k).equals(firstTitle) && StringDates.get(k).equals(firstDate)) {
-                    return (k - 1) * noticeType.getNoticeSizePerPage() + k;
+                    return (i - 1) * noticeType.getNoticeSizePerPage() + k;
                 }
             }
 
             // 첫 번째 게시물이 수정이나 삭제되었다고 여기고 두 번째 게시글 이후를 새글로 간주 후 개수를 반환
             for (int k = 0; k < titlesAndDatesAndCategories.titles().size(); k++) {
                 if (titlesAndDatesAndCategories.titles().get(k).equals(secondTitle) && StringDates.get(k).equals(secondDate)) {
-                    return (k - 1) * noticeType.getNoticeSizePerPage() + k;
+                    return (i - 1) * noticeType.getNoticeSizePerPage() + k;
                 }
             }
         }
@@ -223,33 +201,9 @@ public class CrawlerServiceImpl implements CrawlerService{
         // 해당 페이지로 이동
         driver.get(noticeType.getBoardUrl());
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement pageButton;
-        if(noticeType == NoticeType.COM){
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }else {
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }
-        pageButton.click();
+        int offset = (pageNum-1) *10;
+        // 해당 페이지로 이동
+        driver.get(noticeType.getBoardUrl()+offset);
 
         List<WebElement> titleAndUrls = driver.findElements(By.cssSelector(
                 "dt.board-list-content-title:not(.board-list-content-top) a"));
@@ -310,32 +264,9 @@ public class CrawlerServiceImpl implements CrawlerService{
 
         // 해당 페이지로 이동
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement pageButton;
-        if(noticeType == NoticeType.COM){
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-
-        }else {
-            // CSS 선택자를 사용하여 해당하는 li 요소를 찾음
-            pageButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".paging-wrap > li")));
-
-            // 찾은 li 요소 중에서 i 값과 일치하는 요소를 찾음
-            for (WebElement element : driver.findElements(By.cssSelector(".paging-wrap > li"))) {
-                if (element.getText().equals(String.valueOf(pageNum))) {
-                    pageButton = element;
-                    break;
-                }
-            }
-        }
-        pageButton.click();
+        int offset = (pageNum-1) *10;
+        // 해당 페이지로 이동
+        driver.get(noticeType.getBoardUrl()+offset);
 
         //페이지의 이동을 위해 0.5초 대기
         Thread.sleep(500);
