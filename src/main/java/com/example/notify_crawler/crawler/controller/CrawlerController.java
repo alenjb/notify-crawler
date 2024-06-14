@@ -85,6 +85,7 @@ public class CrawlerController {
                 for(int i=1; i<=newNoticeNumInLastPage; i++){
                     Notice notice = newNoticesFromLastPage.get(noticeType.getNoticeSizePerPage() - i);
                     newNotices.add(notice);
+                    kafkaNotices.add(notice);
                 }
                 // 페이지를 통채로 가져올 수 있는 만큼 새 글을 크롤링 해오기
                 for(int i=newNoticePageCount; i>=1 ;i--){
